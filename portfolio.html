@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio — Game Developer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --bg2: #111118;
+        --bg3: #1a1a26;
+        --accent: #00f0a0;
+        --accent2: #7b61ff;
+        --accent3: #ff4b6e;
+        --text: #e8e8f0;
+        --muted: #7a7a9a;
+        --border: rgba(0, 240, 160, 0.15);
+        --border2: rgba(123, 97, 255, 0.2);
+        --glow: 0 0 20px rgba(0, 240, 160, 0.3);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Space Mono", monospace;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+
+      /* ── SCANLINE OVERLAY ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.03) 2px,
+          rgba(0, 0, 0, 0.03) 4px
+        );
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 4rem;
+        background: rgba(10, 10, 15, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        z-index: 100;
+      }
+      .nav-logo {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 900;
+        font-size: 1.1rem;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+        text-shadow: var(--glow);
+      }
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      /* ── HERO ── */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 0 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+            rgba(0, 240, 160, 0.04) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(0, 240, 160, 0.04) 1px, transparent 1px);
+        background-size: 60px 60px;
+        animation: gridScroll 20s linear infinite;
+      }
+      @keyframes gridScroll {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 60px 60px;
+        }
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 720px;
+      }
+      .hero-tag {
+        display: inline-block;
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        border: 1px solid var(--border);
+        padding: 0.35rem 0.9rem;
+        margin-bottom: 1.5rem;
+        animation: fadeUp 0.6s ease both;
+      }
+      .hero-name {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        font-weight: 900;
+        line-height: 1.05;
+        margin-bottom: 0.4rem;
+        animation: fadeUp 0.6s 0.1s ease both;
+      }
+      .hero-name span {
+        color: var(--accent);
+        text-shadow: var(--glow);
+      }
+      .hero-role {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(0.9rem, 2vw, 1.2rem);
+        color: var(--accent2);
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+        animation: fadeUp 0.6s 0.2s ease both;
+      }
+      .hero-desc {
+        font-size: 0.85rem;
+        line-height: 1.9;
+        color: var(--muted);
+        max-width: 500px;
+        margin-bottom: 2.5rem;
+        animation: fadeUp 0.6s 0.3s ease both;
+      }
+      .hero-btns {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        animation: fadeUp 0.6s 0.4s ease both;
+      }
+      .btn-primary {
+        display: inline-block;
+        padding: 0.85rem 2rem;
+        background: var(--accent);
+        color: #0a0a0f;
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: box-shadow 0.2s, transform 0.2s;
+      }
+      .btn-primary:hover {
+        box-shadow: 0 0 30px rgba(0, 240, 160, 0.5);
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        display: inline-block;
+        padding: 0.85rem 2rem;
+        border: 1px solid var(--border2);
+        color: var(--accent2);
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .btn-secondary:hover {
+        background: rgba(123, 97, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Hero decorative pixels */
+      .hero-deco {
+        position: absolute;
+        right: 6rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 6px;
+        animation: fadeUp 0.8s 0.5s ease both;
+      }
+      .pixel {
+        width: 12px;
+        height: 12px;
+        background: var(--bg3);
+        transition: background 0.3s;
+      }
+      .pixel.lit {
+        background: var(--accent);
+        box-shadow: 0 0 6px rgba(0, 240, 160, 0.6);
+      }
+      .pixel.lit2 {
+        background: var(--accent2);
+        box-shadow: 0 0 6px rgba(123, 97, 255, 0.6);
+      }
+      .pixel.lit3 {
+        background: var(--accent3);
+        box-shadow: 0 0 6px rgba(255, 75, 110, 0.5);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── STATS ── */
+      .stats-bar {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 2rem 4rem;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+      .stat {
+        text-align: center;
+      }
+      .stat-num {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--accent);
+        display: block;
+        text-shadow: var(--glow);
+      }
+      .stat-label {
+        font-size: 0.6rem;
+        color: var(--muted);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-top: 0.3rem;
+        display: block;
+      }
+
+      /* ── SECTIONS ── */
+      section {
+        padding: 6rem 4rem;
+      }
+      .section-header {
+        margin-bottom: 3rem;
+      }
+      .section-tag {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+      .section-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        font-weight: 900;
+        line-height: 1.2;
+      }
+      .section-title span {
+        color: var(--accent2);
+      }
+
+      /* ── ABOUT ── */
+      #about {
+        background: var(--bg2);
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+      }
+      .about-text p {
+        font-size: 0.82rem;
+        line-height: 2;
+        color: var(--muted);
+        margin-bottom: 1rem;
+      }
+      .about-text p strong {
+        color: var(--text);
+      }
+      .skills-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+      .skill-item {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        padding: 0.6rem 0.9rem;
+        font-size: 0.7rem;
+        color: var(--accent);
+        letter-spacing: 0.08em;
+        position: relative;
+        overflow: hidden;
+        transition: border-color 0.2s;
+      }
+      .skill-item::before {
+        content: "▶";
+        margin-right: 0.5rem;
+        font-size: 0.55rem;
+        color: var(--accent2);
+      }
+      .skill-item:hover {
+        border-color: var(--accent);
+      }
+
+      /* ── GAMES / PROJECTS ── */
+      #projects {
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+      .project-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+      }
+      .project-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent);
+        box-shadow: 0 8px 40px rgba(0, 240, 160, 0.1);
+      }
+      .project-thumb {
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .project-thumb::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 50%, var(--bg2));
+      }
+      .project-body {
+        padding: 1.25rem;
+      }
+      .project-genre {
+        font-size: 0.58rem;
+        letter-spacing: 0.2em;
+        color: var(--accent2);
+        text-transform: uppercase;
+        margin-bottom: 0.4rem;
+        display: block;
+      }
+      .project-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+      }
+      .project-desc {
+        font-size: 0.72rem;
+        color: var(--muted);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .tag {
+        font-size: 0.58rem;
+        padding: 0.25rem 0.6rem;
+        border: 1px solid var(--border2);
+        color: var(--accent2);
+        letter-spacing: 0.1em;
+      }
+
+      /* ── EXPERIENCE ── */
+      #experience {
+        background: var(--bg2);
+      }
+      .timeline {
+        position: relative;
+        padding-left: 2rem;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(
+          180deg,
+          var(--accent) 0%,
+          var(--accent2) 50%,
+          transparent 100%
+        );
+      }
+      .timeline-item {
+        position: relative;
+        padding: 0 0 2.5rem 2rem;
+      }
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -0.35rem;
+        top: 0.35rem;
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        box-shadow: 0 0 10px rgba(0, 240, 160, 0.6);
+        transform: rotate(45deg);
+      }
+      .timeline-year {
+        font-size: 0.6rem;
+        color: var(--accent);
+        letter-spacing: 0.15em;
+        margin-bottom: 0.4rem;
+        display: block;
+      }
+      .timeline-role {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+      .timeline-company {
+        font-size: 0.72rem;
+        color: var(--accent2);
+        margin-bottom: 0.8rem;
+        display: block;
+      }
+      .timeline-desc {
+        font-size: 0.75rem;
+        color: var(--muted);
+        line-height: 1.9;
+      }
+
+      /* ── CONTACT ── */
+      #contact {
+      }
+      .contact-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+      }
+      .contact-info p {
+        font-size: 0.8rem;
+        color: var(--muted);
+        line-height: 1.9;
+        margin-bottom: 2rem;
+      }
+      .contact-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.8rem 1rem;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        text-decoration: none;
+        color: var(--text);
+        font-size: 0.75rem;
+        transition: border-color 0.2s, background 0.2s;
+      }
+      .contact-link:hover {
+        border-color: var(--accent);
+        background: var(--bg3);
+      }
+      .contact-link-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+      .contact-link-info {
+        flex: 1;
+      }
+      .contact-link-label {
+        font-size: 0.58rem;
+        color: var(--accent);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.15rem;
+      }
+
+      /* ── CONTACT FORM ── */
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .form-label {
+        font-size: 0.6rem;
+        color: var(--accent);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .form-input,
+      .form-textarea {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-family: "Space Mono", monospace;
+        font-size: 0.78rem;
+        padding: 0.75rem 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+        resize: none;
+      }
+      .form-input:focus,
+      .form-textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px rgba(0, 240, 160, 0.2);
+      }
+      .form-input::placeholder,
+      .form-textarea::placeholder {
+        color: var(--muted);
+      }
+      .form-textarea {
+        height: 120px;
+      }
+      .form-submit {
+        align-self: flex-start;
+        padding: 0.85rem 2.5rem;
+        background: var(--accent);
+        color: #0a0a0f;
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        transition: box-shadow 0.2s, transform 0.2s;
+      }
+      .form-submit:hover {
+        box-shadow: 0 0 30px rgba(0, 240, 160, 0.5);
+        transform: translateY(-2px);
+      }
+      .form-success {
+        display: none;
+        padding: 0.8rem 1rem;
+        background: rgba(0, 240, 160, 0.08);
+        border: 1px solid var(--accent);
+        font-size: 0.72rem;
+        color: var(--accent);
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        padding: 2rem 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      footer p {
+        font-size: 0.65rem;
+        color: var(--muted);
+      }
+      footer .logo {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.85rem;
+        color: var(--accent);
+        font-weight: 900;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        nav {
+          padding: 1rem 1.5rem;
+        }
+        .nav-links {
+          display: none;
+        }
+        #hero {
+          padding: 0 1.5rem;
+        }
+        .hero-deco {
+          display: none;
+        }
+        .stats-bar {
+          grid-template-columns: repeat(2, 1fr);
+          padding: 2rem 1.5rem;
+        }
+        section {
+          padding: 4rem 1.5rem;
+        }
+        .about-grid,
+        .contact-layout {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        footer {
+          padding: 1.5rem;
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="nav-logo">&lt;DEV/&gt;</div>
+      <ul class="nav-links">
+        <li><a href="#about">Tentang</a></li>
+        <li><a href="#projects">Game</a></li>
+        <li><a href="#experience">Pengalaman</a></li>
+        <li><a href="#contact">Kontak</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <div class="hero-tag">[ AVAILABLE FOR PROJECT ]</div>
+        <h1 class="hero-name">Bima<br /><span>Syahputra</span></h1>
+        <p class="hero-role">// Game Developer</p>
+        <p class="hero-desc">
+          Membangun dunia virtual yang imersif — dari mechanic gameplay hingga
+          cerita yang membekas. Spesialis Unity & Unreal Engine dengan passion
+          di indie game development.
+        </p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn-primary">Lihat Game ▶</a>
+          <a href="#contact" class="btn-secondary">Hire Me</a>
+        </div>
+      </div>
+
+      <!-- Pixel art deco -->
+      <div class="hero-deco" id="pixelDeco"></div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-num" data-target="12">0</span>
+        <span class="stat-label">Game Dirilis</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="5">0</span>
+        <span class="stat-label">Tahun Pengalaman</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="80">0</span>
+        <span class="stat-label">Ribu Downloads</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="8">0</span>
+        <span class="stat-label">Game Jam Dimenangkan</span>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-header">
+        <span class="section-tag">// 01 — TENTANG SAYA</span>
+        <h2 class="section-title">
+          Dari Surabaya, <span>Membangun Dunia</span>
+        </h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            Halo! Saya <strong>Bima Syahputra</strong>, seorang Game Developer
+            berbasis di <strong>Surabaya, Indonesia</strong>. Perjalanan saya
+            dimulai dari porject hobby kecil Unity di bangku SMK.
+          </p>
+          <p>
+            Saya percaya bahwa game bukan sekadar hiburan — ia adalah
+            <strong>medium bercerita yang paling kuat</strong>. Setiap mekanik,
+            setiap piksel, setiap baris kode adalah kesempatan untuk menciptakan
+            pengalaman yang tak terlupakan bagi pemain.
+          </p>
+          <p>
+            Saat ini aktif mengembangkan proyek indie sambil terbuka untuk
+            kolaborasi dan freelance project.
+          </p>
+        </div>
+        <div>
+          <div
+            style="
+              margin-bottom: 0.8rem;
+              font-size: 0.7rem;
+              color: var(--muted);
+              letter-spacing: 0.1em;
+            "
+          >
+            TECH STACK &amp; TOOLS
+          </div>
+          <div class="skills-grid">
+            <div class="skill-item">Unity Engine</div>
+            <div class="skill-item">Unreal Engine 5</div>
+            <div class="skill-item">C# / C++</div>
+            <div class="skill-item">Godot Engine</div>
+            <div class="skill-item">Blender 3D</div>
+            <div class="skill-item">Aseprite</div>
+            <div class="skill-item">Git / GitHub</div>
+            <div class="skill-item">Game Design</div>
+            <div class="skill-item">Shader / VFX</div>
+            <div class="skill-item">Level Design</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-header">
+        <span class="section-tag">// 02 — GAME</span>
+        <h2 class="section-title">Karya yang <span>Pernah Dibuat</span></h2>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div
+            class="project-thumb"
+            style="background: linear-gradient(135deg, #0d1b2a, #1a0533)"
+          >
+            <span style="position: relative; z-index: 1; font-size: 3.5rem"
+              >🌌</span
+            >
+          </div>
+          <div class="project-body">
+            <span class="project-genre">RPG · PC</span>
+            <h3 class="project-title">Void Remnant</h3>
+            <p class="project-desc">
+              RPG sci-fi dengan sistem combat berbasis waktu. Jelajahi kapal
+              luar angkasa yang rusak dan temukan kebenaran di balik bencana
+              kosmik.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">Pixel Art</span>
+              <span class="tag">Narrative</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div
+            class="project-thumb"
+            style="background: linear-gradient(135deg, #0a1f0a, #1a2e0a)"
+          >
+            <span style="position: relative; z-index: 1; font-size: 3.5rem"
+              >🌿</span
+            >
+          </div>
+          <div class="project-body">
+            <span class="project-genre">Platformer · Mobile</span>
+            <h3 class="project-title">Hutan Terakhir</h3>
+            <p class="project-desc">
+              Platformer 2D dengan pesan lingkungan hidup. Bantu Araka si katak
+              kecil menyelamatkan hutan dari ancaman industrialisasi.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Godot</span>
+              <span class="tag">GDScript</span>
+              <span class="tag">Android</span>
+              <span class="tag">iOS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div
+            class="project-thumb"
+            style="background: linear-gradient(135deg, #1f0a00, #2e1500)"
+          >
+            <span style="position: relative; z-index: 1; font-size: 3.5rem"
+              >⚔️</span
+            >
+          </div>
+          <div class="project-body">
+            <span class="project-genre">Roguelike · PC</span>
+            <h3 class="project-title">Dungeon Protocol</h3>
+            <p class="project-desc">
+              Roguelike berbasis deck-building dengan setting cyberpunk. Setiap
+              run berbeda, setiap keputusan menentukan nasib karakter.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">Procedural</span>
+              <span class="tag">Steam</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div
+            class="project-thumb"
+            style="background: linear-gradient(135deg, #00101f, #001a33)"
+          >
+            <span style="position: relative; z-index: 1; font-size: 3.5rem"
+              >🎮</span
+            >
+          </div>
+          <div class="project-body">
+            <span class="project-genre">Puzzle · Web</span>
+            <h3 class="project-title">Grid Nomad</h3>
+            <p class="project-desc">
+              Puzzle game berbasis grid dengan mekanik physics unik. Dibuat
+              dalam 72 jam untuk Global Game Jam 2024 dan meraih juara 3.
+            </p>
+            <div class="project-tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">Game Jam</span>
+              <span class="tag">WebGL</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div
+            class="project-thumb"
+            style="background: linear-gradient(135deg, #1f001a, #330029)"
+          >
+            <span style="position: relative; z-index: 1; font-size: 3.5rem"
+              >👻</span
+            >
+          </div>
+          <div class="project-body">
+            <span class="project-genre">Horror · PC</span>
+            <h3 class="project-title">Bayangan Kota</h3>
+            <p class="project-desc">
+              Horror walking simulator terinspirasi mitos urban Indonesia.
+              Atmosfer mencekam dengan soundtrack original dan environmental
+              storytelling.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unreal 5</span>
+              <span class="tag">Lumen</span>
+              <span class="tag">C++</span>
+              <span class="tag">Local</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div
+            class="project-thumb"
+            style="background: linear-gradient(135deg, #101010, #1a1a00)"
+          >
+            <span style="position: relative; z-index: 1; font-size: 3.5rem"
+              >🏎️</span
+            >
+          </div>
+          <div class="project-body">
+            <span class="project-genre">Racing · Mobile</span>
+            <h3 class="project-title">Neon Drift</h3>
+            <p class="project-desc">
+              Racing arcade neon dengan physics drift yang satisfying. 50+
+              mobil, 20+ track. Lebih dari 60k download di Play Store.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">Play Store</span>
+              <span class="tag">60K+ DL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-header">
+        <span class="section-tag">// 03 — PENGALAMAN</span>
+        <h2 class="section-title">Perjalanan <span>Karir</span></h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-year">2020 — sekarang</span>
+          <h3 class="timeline-role">Junior Developer & Game Jam Enthusiast</h3>
+          <span class="timeline-company">Freelance</span>
+          <p class="timeline-desc">
+            Membangun portofolio dan jaringan komunitas developer lokal maupun
+            global.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-year">2023 — sekarang</span>
+          <h3 class="timeline-role">S1 Teknik Informatika</h3>
+          <span class="timeline-company"
+            >Universitas Wijaya Kusuma — Surabaya</span
+          >
+          <p class="timeline-desc">
+            Fokus pada pemrograman dan pengembangan software. Tugas akhir:
+            Pengembangan Game Edukasi Berbasis Augmented Reality untuk Anak SD.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-header">
+        <span class="section-tag">// 04 — KONTAK</span>
+        <h2 class="section-title">Mari <span>Berkolaborasi</span></h2>
+      </div>
+      <div class="contact-layout">
+        <div class="contact-info">
+          <p>
+            Punya proyek game yang ingin dikerjakan bersama? Butuh developer
+            untuk tim Anda? Atau sekadar ingin ngobrol soal game dev? Saya
+            selalu terbuka untuk diskusi dan kolaborasi baru.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:bima33130@gmail.com" class="contact-link">
+              <div class="contact-link-icon">✉</div>
+              <div class="contact-link-info">
+                <span class="contact-link-label">Email</span>
+                bima33130@gmail.com
+              </div>
+            </a>
+            <a href="#" class="contact-link">
+              <div
+                class="contact-link-icon"
+                style="font-size: 0.75rem; font-weight: 700"
+              >
+                in
+              </div>
+              <div class="contact-link-info"></div>
+            </a>
+            <a href="#" class="contact-link">
+              <div class="contact-link-icon" style="font-size: 0.7rem">GH</div>
+              <div class="contact-link-info">
+                <span class="contact-link-label">GitHub</span>
+                https://github.com/Bima33130/Web23120067
+              </div>
+            </a>
+            <a href="#" class="contact-link">
+              <div
+                class="contact-link-icon"
+                style="font-size: 0.65rem; font-weight: 700"
+              >
+                itch
+              </div>
+              <div class="contact-link-info"></div>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label class="form-label" for="name">Nama</label>
+              <input
+                type="text"
+                id="name"
+                class="form-input"
+                placeholder="Nama Anda"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                class="form-input"
+                placeholder="email@contoh.com"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subject">Subjek</label>
+              <input
+                type="text"
+                id="subject"
+                class="form-input"
+                placeholder="Tentang proyek / kolaborasi / dll."
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="message">Pesan</label>
+              <textarea
+                id="message"
+                class="form-textarea"
+                placeholder="Ceritakan proyek atau ide Anda..."
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="form-submit">Kirim Pesan ▶</button>
+            <div class="form-success" id="formSuccess">
+              ✓ Pesan berhasil dikirim! Saya akan membalas dalam 24 jam.
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="logo">&lt;AP/&gt;</div>
+      <p>© 2026 Bima Syahputra — Game Developer, Surabaya</p>
+      <p style="color: var(--accent); font-size: 0.6rem; letter-spacing: 0.1em">
+        MADE WITH ☕ &amp; 💚
+      </p>
+    </footer>
+
+    <script>
+      // Pixel art decoration
+      const deco = document.getElementById("pixelDeco");
+      const pattern = [
+        0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0, 1, 1, 2, 2, 2, 2, 1, 1,
+        1, 2, 2, 3, 3, 2, 2, 1, 1, 2, 2, 3, 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 1,
+        0, 1, 1, 2, 2, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0,
+      ];
+      if (deco) {
+        pattern.forEach((v) => {
+          const p = document.createElement("div");
+          p.className =
+            "pixel" +
+            (v === 1 ? " lit" : v === 2 ? " lit2" : v === 3 ? " lit3" : "");
+          deco.appendChild(p);
+        });
+      }
+
+      // Pixel flicker
+      function flicker() {
+        const pixels = document.querySelectorAll(".pixel");
+        pixels.forEach((p) => {
+          if (Math.random() < 0.05) {
+            p.style.opacity = Math.random() < 0.5 ? "0.4" : "1";
+            setTimeout(() => (p.style.opacity = "1"), 200);
+          }
+        });
+      }
+      setInterval(flicker, 300);
+
+      // Counter animation
+      function animateCounters() {
+        document.querySelectorAll("[data-target]").forEach((el) => {
+          const target = +el.getAttribute("data-target");
+          let current = 0;
+          const step = target / 40;
+          const timer = setInterval(() => {
+            current = Math.min(current + step, target);
+            el.textContent =
+              Math.round(current) +
+              (el.getAttribute("data-target") == "80" ? "K+" : "+");
+            if (current >= target) clearInterval(timer);
+          }, 30);
+        });
+      }
+
+      // Observe stats bar
+      const statsBar = document.querySelector(".stats-bar");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            animateCounters();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.5 }
+      );
+      if (statsBar) observer.observe(statsBar);
+
+      // Contact form
+      const form = document.getElementById("contactForm");
+      const success = document.getElementById("formSuccess");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          success.style.display = "block";
+          form.reset();
+          setTimeout(() => (success.style.display = "none"), 5000);
+        });
+      }
+
+      // Scroll reveal
+      const revealEls = document.querySelectorAll(
+        ".project-card, .timeline-item, .skill-item"
+      );
+      const revealObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              en.target.style.opacity = "1";
+              en.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      revealEls.forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(20px)";
+        el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+        revealObs.observe(el);
+      });
+    </script>
+  </body>
+</html>
